@@ -39,20 +39,36 @@ exports.getMyCheck =asyncHandler( async (req, res) => {
     // console.log(orders);
 });
 
-exports.getAdminCheckData = async (req, res) => {
-    const pageSize = 10;
-    const page = Number(req.query.pageNumber) || 1
-    const keyword = req.query.keyword ? {
-        name: {
-            $regex: req.query.keyword,
-            $options: 'i'
-        }
-    } : {}
-    const count = await CheckIn.countDocuments({ ...keyword })
-    const checkAll = await CheckIn.find({ ...keyword }).limit(pageSize).skip(pageSize * (page - 1))
-    res.json({ checkAll, page, pages: Math.ceil(count / pageSize) })
-};
+// exports.getAdminCheckData =asyncHandler(async (req, res) => {
+//     const pageSize = 10;
+//     const page = Number(req.query.pageNumber) || 1
+//     const keyword = req.query.keyword ? {
+//         name: {
+//             $regex: req.query.keyword,
+//             $options: 'i'
+//         }
+//     } : {}
+//     const count = await CheckIn.countDocuments({ ...keyword })
+//     const checkAll = await CheckIn.find({ ...keyword }).limit(pageSize).skip(pageSize * (page - 1))
+//     res.json({ checkAll, page, pages: Math.ceil(count / pageSize) })
+// });
 
+//
+exports.getAdminPagination = async(req, res) => {
+    try {
+        // const page = parseInt(req.query.page); // Make sure to parse the page to number
+        // We are using the '3 layer' architecture explored on the 'bulletproof node.js architecture'
+        // Basically, it's just a class where we have our business logic
+        // const userService = new CheckIn();
+        const limit = parseInt(req.query.limit); // Make sure to parse the limit to number
+    //   const skip = parseInt(req.query.skip)
+        const users = await CheckIn.find({}).limit(limit);
+        return res.status(200).json(users);
+      } catch(e){
+        return res.status(500).json(e)
+      }
+}
+//
 exports.getAdminCheckDataByFilter = asyncHandler(async (req, res) => {
     const checkAll = await CheckIn.find({})
     res.json(checkAll)
