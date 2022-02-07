@@ -141,7 +141,8 @@ exports.updateUserProfile =asyncHandler( async(req,res)=>{
             name: updateUser.name,
             email:updateUser.email,
             isAdmin: updateUser.isAdmin,
-            token: generateToken(updateUser._id)
+            token: generateToken(updateUser._id),
+            barCode: updateUser.ranNum
         })
     }else{
         res.status(404);
