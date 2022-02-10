@@ -89,7 +89,7 @@ exports.getAllUsersForOptions =asyncHandler( async (req, res)=>{
         const id = user._id;
         const name = user.name
         const barCode = user.ranNum
-        return {id, name, barCode};
+        return {label:name, value:id};
     })
     // console.log(data);
     res.json(data);
