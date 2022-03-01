@@ -2,7 +2,7 @@ const asyncHandler = require('express-async-handler');
 const CheckIn = require('../model/checkModel');
 const CheckPending = require('../model/checkPending')
 exports.checkInPending =asyncHandler( async (req,res) =>{
-    const {name, check, time, date, lati, long, placedata} = req.body;
+    const {name, check, time, date, lati, long, placedata, days} = req.body;
     const checked = new CheckPending({
         user: req.user._id,
         name,
@@ -11,7 +11,8 @@ exports.checkInPending =asyncHandler( async (req,res) =>{
         date,
         lati,
         long,
-        placedata
+        placedata,
+        days
     })
     const data = await checked.save();
     if(data){
@@ -20,7 +21,7 @@ exports.checkInPending =asyncHandler( async (req,res) =>{
 })
 
 exports.postAdminCheckApprovePendingData =asyncHandler( async (req,res) =>{
-    const {_id, user, name, check, time, date, lati, long, placedata} = req.body;
+    const {_id, user, name, check, time, date, lati, long, placedata, days} = req.body;
     const checked = new CheckIn({
         _id,
         user,
@@ -30,7 +31,8 @@ exports.postAdminCheckApprovePendingData =asyncHandler( async (req,res) =>{
         date,
         lati,
         long,
-        placedata
+        placedata,
+        days
     })
     const data = await checked.save();
     if(data){

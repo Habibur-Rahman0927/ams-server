@@ -31,6 +31,10 @@ const checkIn = mongoose.Schema({
     placedata:{
         type:String,
     },
+    days:{
+        type:String,
+        required: true,
+    }
 }, {
     timestamps: true
 })

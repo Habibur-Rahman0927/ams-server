@@ -3,7 +3,7 @@ const User = require('../model/userModel');
 const CheckIn = require('../model/checkModel');
 const Faceapi = require('../model/faceapiModel');
 exports.checkIn =asyncHandler( async (req,res) =>{
-    const {name, check, time, date, lati, long, placedata} = req.body;
+    const {name, check, time, date, lati, long, placedata, days} = req.body;
     const checked = new CheckIn({
         user: req.user._id,
         name,
@@ -12,7 +12,8 @@ exports.checkIn =asyncHandler( async (req,res) =>{
         date,
         lati,
         long,
-        placedata
+        placedata,
+        days
     })
     const data = await checked.save();
     if(data){
