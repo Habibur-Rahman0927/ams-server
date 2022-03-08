@@ -8,7 +8,7 @@ const sendEmail = (to, url, txt) => {
         service: 'gmail',
         auth: {
         user: 'devtarded@gmail.com',
-        pass: 'ASDFGHJKL.123456789',
+        pass: 'wztxnlgtgvtydddm',
         },
     });
 
