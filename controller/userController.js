@@ -17,6 +17,8 @@ exports.loginUser = asyncHandler(async (req, res) =>{
             token: generateToken(user._id),
             barCode: user.ranNum
         })
+    }else {
+        res.json({msg: 'Please try again letter'})
     }
 })
 
