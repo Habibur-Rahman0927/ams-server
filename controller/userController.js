@@ -200,3 +200,47 @@ exports.updateUser = asyncHandler(async (req, res) =>{
     }
 })
 
+exports.forgotPassword =asyncHandler( async (req,res) =>{
+    const { email } = req.body;
+    if(!email){
+        res.status(400)
+        throw new Error("Please fill in all fields");
+    }
+    if(!validateEmail(email)){
+        res.status(400)
+        throw new Error("Invalid emails");
+    }
+
+    const newUser = {
+        email
+    }
+    // console.log(newUser)
+    const activetion_token = createActivationToken(newUser)
+    // console.log(activetion_token)
+    const url = `${process.env.CLIENT_URL}/#/user/forgotpassword/${activetion_token}`
+    // console.log(url)
+    sendEmail(email, url, "Please Reset Your Password",);
+    res.json({msg: "Please check your E-mail"})
+})
+
+
+exports.resetpassword = async(req, res) =>{
+    const {activetion_token, password} = req.body
+    const {email} = jwt.verify(activetion_token, process.env.JWT_SECRET)
+    console.log(email, password, activetion_token)
+    const user = await User.findOne({email});
+    console.log(user)
+    if(user){
+        if(password){
+            user.password = password
+        }
+        const updateUser = await user.save();
+        res.json({
+            msg: "Your password reset successfully",
+            updateUser
+        })
+    }else{
+        res.status(404);
+        throw new Error('User Not found');
+    }
+}
